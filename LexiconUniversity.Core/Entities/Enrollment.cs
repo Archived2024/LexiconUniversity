@@ -8,7 +8,6 @@ namespace LexiconUniversity.Core.Entities
 {
     public class Enrollment
     {
-        public int CourseId { get; set; }
         public int Grade { get; set; }
 
         //Convention 1   Nullable FK     
@@ -19,7 +18,12 @@ namespace LexiconUniversity.Core.Entities
 
         //Convention 4 add foreign key
        
+        //Foreign Key
+        public int CourseId { get; set; }
         public int StudentId { get; set; }
+
+        //Navigation property
         public Student Student {get; set;}
+        public Course Course { get; set; }
     }
 }

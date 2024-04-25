@@ -13,5 +13,7 @@ namespace LexiconUniversity.Core.Entities
 
         public ICollection<Student> Students { get; set; }
 
+        public ICollection<Enrollment> Enrollments { get; set; }
+
     }
 }
