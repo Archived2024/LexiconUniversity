@@ -20,7 +20,9 @@ namespace LexiconUniversity.Core.Entities
         //Navigational property
         public Address Address { get; set; }
 
-        //Convention 2
+        //Convention 2 & 3 (2 Nullable FK)
         public ICollection<Enrollment> Enrollments { get; set; }
+
+        public ICollection<Course> Courses { get; set; }
     }
 }
