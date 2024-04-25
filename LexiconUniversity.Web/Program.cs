@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using LexiconUniversity.Persistance.Data;
+using LexiconUniversity.Persistance;
+using LexiconUniversity.Web.Extensions;
 namespace LexiconUniversity.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<LexiconUniversityContext>(options =>
@@ -14,7 +16,8 @@ namespace LexiconUniversity.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            var app = builder.Build();
+            var app = builder.Build(); 
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -23,7 +26,10 @@ namespace LexiconUniversity.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            else
+            {
+                await app.SeedDataAsync(); 
+            }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
