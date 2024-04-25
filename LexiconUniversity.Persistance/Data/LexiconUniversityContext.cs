@@ -16,7 +16,8 @@ namespace LexiconUniversity.Persistance.Data
 
         public DbSet<Student> Students { get; set; } = default!;
 
-        public DbSet<Enrollment> Enrollments { get; set; }
+        //Not needed for convention 2
+        //public DbSet<Enrollment> Enrollments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
