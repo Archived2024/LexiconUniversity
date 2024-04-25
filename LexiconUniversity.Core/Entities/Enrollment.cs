@@ -11,5 +11,9 @@ namespace LexiconUniversity.Core.Entities
         public int CourseId { get; set; }
         public int StudentId { get; set; }
         public int Grade { get; set; }
+
+        //Convention 1
+        //Navigation property
+        public Student Student { get; set; }
     }
 }
