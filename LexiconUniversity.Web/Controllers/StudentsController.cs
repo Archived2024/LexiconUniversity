@@ -22,6 +22,7 @@ namespace LexiconUniversity.Web.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
+            //var courses = _context.Courses.
             return View(await _context.Students.ToListAsync());
         }
 

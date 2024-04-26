@@ -15,6 +15,9 @@ namespace LexiconUniversity.Persistance.Data
         }
 
         public DbSet<Student> Students { get; set; } = default!;
+        public DbSet<Course> Courses { get; set; } = default!;
+
+        public DbSet<Enrollment> Enrollments { get; set; } = default!; 
 
         //Not needed for convention 2
         //public DbSet<Enrollment> Enrollments { get; set; }
