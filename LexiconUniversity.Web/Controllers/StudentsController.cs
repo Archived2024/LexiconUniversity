@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LexiconUniversity.Core.Entities;
 using LexiconUniversity.Persistance.Data;
+using Bogus;
 //using LexiconUniversity.Web.Models.ViewModels;
 
 namespace LexiconUniversity.Web.Controllers
@@ -14,10 +15,12 @@ namespace LexiconUniversity.Web.Controllers
     public class StudentsController : Controller
     {
         private readonly LexiconUniversityContext _context;
+        private readonly Faker faker;
 
         public StudentsController(LexiconUniversityContext context)
         {
             _context = context;
+            faker = new Faker(); 
         }
 
         // GET: Students
@@ -30,6 +33,7 @@ namespace LexiconUniversity.Web.Controllers
             //var c = _context.Students.Include(s => s.Courses).ToList();
             //
             var model = _context.Students.AsNoTracking()
+                .OrderByDescending(s=>s.Id)
                 .Select(s => new StudentIndexViewModel
                 {
                     Id = s.Id,
@@ -41,7 +45,8 @@ namespace LexiconUniversity.Web.Controllers
                         CourseName = e.Course.Title,
                         Grade = e.Grade
                     })
-                });
+                })
+                .Take(5);
 
             return View(await model.ToListAsync());
         }
@@ -75,15 +80,24 @@ namespace LexiconUniversity.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Avatar,FirstName,LastName,Email")] Student student)
+        public async Task<IActionResult> Create(StudentCreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
+                var student = new Student(faker.Internet.Avatar(), new Name(viewModel.FirstName, viewModel.LastName), viewModel.Email)
+                {
+                    Address = new Address
+                    {
+                        Street = viewModel.Street,
+                        ZipCode = viewModel.ZipCode,
+                        City = viewModel.City
+                    }
+                };
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(viewModel);
         }
 
         // GET: Students/Edit/5
