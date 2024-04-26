@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LexiconUniversity.Core.Entities;
 using LexiconUniversity.Persistance.Data;
 using Bogus;
+using AutoMapper;
 //using LexiconUniversity.Web.Models.ViewModels;
 
 namespace LexiconUniversity.Web.Controllers
@@ -15,11 +16,13 @@ namespace LexiconUniversity.Web.Controllers
     public class StudentsController : Controller
     {
         private readonly LexiconUniversityContext _context;
+        private readonly IMapper mapper;
         private readonly Faker faker;
 
-        public StudentsController(LexiconUniversityContext context)
+        public StudentsController(LexiconUniversityContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
             faker = new Faker(); 
         }
 
@@ -84,15 +87,17 @@ namespace LexiconUniversity.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var student = new Student(faker.Internet.Avatar(), new Name(viewModel.FirstName, viewModel.LastName), viewModel.Email)
-                {
-                    Address = new Address
-                    {
-                        Street = viewModel.Street,
-                        ZipCode = viewModel.ZipCode,
-                        City = viewModel.City
-                    }
-                };
+                //var student = new Student(faker.Internet.Avatar(), new Name(viewModel.FirstName, viewModel.LastName), viewModel.Email)
+                //{
+                //    Address = new Address
+                //    {
+                //        Street = viewModel.Street,
+                //        ZipCode = viewModel.ZipCode,
+                //        City = viewModel.City
+                //    }
+                //};
+                var student = mapper.Map<Student>(viewModel);
+                student.Avatar = faker.Internet.Avatar(); 
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
