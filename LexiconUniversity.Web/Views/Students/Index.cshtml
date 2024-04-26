@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LexiconUniversity.Core.Entities.Student>
+﻿@model IEnumerable<StudentIndexViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,13 +16,13 @@
                 @Html.DisplayNameFor(model => model.Avatar)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
+                @Html.DisplayNameFor(model => model.City)
+            </th> 
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                @Html.DisplayNameFor(model => model.CourseInfos)
             </th>
             <th></th>
         </tr>
@@ -31,16 +31,20 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Avatar)
+                @* @Html.DisplayFor(modelItem => item.Avatar) *@
+                <img src="@item.Avatar" alt="Profile picture" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastName)
+                @Html.DisplayFor(modelItem => item.City)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Email)
+                @foreach (var courses in item.CourseInfos)
+                    {
+                        <p>Course: @courses.CourseName | Grade: @courses.Grade</p>
+                    }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LexiconUniversity.Core.Entities;
 using LexiconUniversity.Persistance.Data;
+//using LexiconUniversity.Web.Models.ViewModels;
 
 namespace LexiconUniversity.Web.Controllers
 {
@@ -22,8 +23,27 @@ namespace LexiconUniversity.Web.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            //var courses = _context.Courses.
-            return View(await _context.Students.ToListAsync());
+            //var t = _context.Students.ToList();
+            //var t2 = _context.Students.Include(s => s.Enrollments).ToList();
+            //var t3 = _context.Students.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToList();
+
+            //var c = _context.Students.Include(s => s.Courses).ToList();
+            //
+            var model = _context.Students.AsNoTracking()
+                .Select(s => new StudentIndexViewModel
+                {
+                    Id = s.Id,
+                    Avatar = s.Avatar,
+                    FullName = s.Name.FullName,
+                    City = s.Address.City,
+                    CourseInfos = s.Enrollments.Select(e=>new CourseInfo
+                    {
+                        CourseName = e.Course.Title,
+                        Grade = e.Grade
+                    })
+                });
+
+            return View(await model.ToListAsync());
         }
 
         // GET: Students/Details/5
