@@ -35,21 +35,25 @@ namespace LexiconUniversity.Web.Controllers
 
             //var c = _context.Students.Include(s => s.Courses).ToList();
             //
-            var model = _context.Students.AsNoTracking()
-                .OrderByDescending(s=>s.Id)
-                .Select(s => new StudentIndexViewModel
-                {
-                    Id = s.Id,
-                    Avatar = s.Avatar,
-                    FullName = s.Name.FullName,
-                    City = s.Address.City,
-                    CourseInfos = s.Enrollments.Select(e=>new CourseInfo
-                    {
-                        CourseName = e.Course.Title,
-                        Grade = e.Grade
-                    })
-                })
-                .Take(5);
+            //var model = _context.Students.AsNoTracking()
+            //    .OrderByDescending(s=>s.Id)
+            //    .Select(s => new StudentIndexViewModel
+            //    {
+            //        Id = s.Id,
+            //        Avatar = s.Avatar,
+            //        FullName = s.Name.FullName,
+            //        City = s.Address.City,
+            //        //CourseInfos = s.Enrollments.Select(e=>new CourseInfo
+            //        //{
+            //        //    CourseName = e.Course.Title,
+            //        //    Grade = e.Grade
+            //        //})
+            //    })
+            //    .Take(5);
+
+            var model = mapper.ProjectTo<StudentIndexViewModel>(_context.Students)
+                .OrderByDescending(s => s.Id)
+                .Take(5); 
 
             return View(await model.ToListAsync());
         }

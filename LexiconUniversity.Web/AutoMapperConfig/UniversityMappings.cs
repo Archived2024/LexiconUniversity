@@ -6,7 +6,9 @@ namespace LexiconUniversity.Web.AutoMapperConfig
     {
         public UniversityMappings()
         {
-            CreateMap<Student, StudentCreateViewModel>().ReverseMap(); 
+            CreateMap<Student, StudentCreateViewModel>().ReverseMap();
+
+            CreateMap<Student, StudentIndexViewModel>(); 
         }
     }
 }
