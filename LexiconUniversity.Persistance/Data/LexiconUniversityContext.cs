@@ -28,7 +28,9 @@ namespace LexiconUniversity.Persistance.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new StudentConfigurations()); 
+            modelBuilder.ApplyConfiguration(new StudentConfigurations());
+
+            modelBuilder.Entity<Course>().ToTable("Courses", c => c.IsTemporal()); 
 
             //foreach(var entity in modelBuilder.Model.GetEntityTypes())
             //{

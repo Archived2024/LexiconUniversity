@@ -22,6 +22,11 @@ namespace LexiconUniversity.Web.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
+            var courses = _context.Courses.
+                Select(c => new { c.Title, Start = EF.Property<DateTime>(c, "PeriodStart") }).ToList();
+
+            var all = _context.Courses.TemporalAll(); 
+
             return View(await _context.Courses.ToListAsync());
         }
 
@@ -88,10 +93,13 @@ namespace LexiconUniversity.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title")] Course course)
         {
+
             if (id != course.Id)
             {
                 return NotFound();
             }
+            ModelState.Remove("Students");
+            ModelState.Remove("Enrollments");
 
             if (ModelState.IsValid)
             {
