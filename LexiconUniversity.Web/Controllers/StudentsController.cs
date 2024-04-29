@@ -30,10 +30,12 @@ namespace LexiconUniversity.Web.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            var student = _context.Students.Include(s => s.Address).FirstOrDefault();
-            student.Name.FirstName = "Edit in Index";
-            _context.Students.Update(student);
-            await _context.SaveChangesAsync(); 
+            //var student = _context.Students.Include(s => s.Address).FirstOrDefault();
+            //student.Name.FirstName = "Edit in Index";
+            //_context.Students.Update(student);
+            //await _context.SaveChangesAsync(); 
+
+            var res = _context.Students.Where(s => EF.Property<DateTime>(s, "Edited") >= DateTime.Now.AddDays(-1));
 
 
 
