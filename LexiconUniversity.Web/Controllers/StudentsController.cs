@@ -9,6 +9,7 @@ using LexiconUniversity.Core.Entities;
 using LexiconUniversity.Persistance.Data;
 using Bogus;
 using AutoMapper;
+using LexiconUniversity.Web.Filters;
 //using LexiconUniversity.Web.Models.ViewModels;
 
 namespace LexiconUniversity.Web.Controllers
@@ -87,20 +88,11 @@ namespace LexiconUniversity.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ModelStateIsValid]
         public async Task<IActionResult> Create(StudentCreateViewModel viewModel)
         {
-            if (ModelState.IsValid)
-            {
-                Random rnd = new Random(); 
-                //var student = new Student(faker.Internet.Avatar(), new Name(viewModel.FirstName, viewModel.LastName), viewModel.Email)
-                //{
-                //    Address = new Address
-                //    {
-                //        Street = viewModel.Street,
-                //        ZipCode = viewModel.ZipCode,
-                //        City = viewModel.City
-                //    }
-                //};
+           
+                Random rnd = new Random();               
                 var student = mapper.Map<Student>(viewModel);
                 student.Avatar = faker.Internet.Avatar();
 
@@ -115,9 +107,7 @@ namespace LexiconUniversity.Web.Controllers
 
                 _context.Add(student);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(viewModel);
+                return RedirectToAction(nameof(Index));          
         }
 
         // GET: Students/Edit/5
