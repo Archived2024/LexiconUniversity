@@ -60,6 +60,7 @@ namespace LexiconUniversity.Web.Controllers
         }
 
         // GET: Students/Details/5
+        [RequiredModel]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -69,11 +70,7 @@ namespace LexiconUniversity.Web.Controllers
 
             var student = await mapper.ProjectTo<StudentDetailsViewModel>(_context.Students)
                 .FirstOrDefaultAsync(s => s.Id == id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-
+       
             return View(student);
         }
 
