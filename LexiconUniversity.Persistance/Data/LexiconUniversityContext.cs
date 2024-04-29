@@ -29,6 +29,11 @@ namespace LexiconUniversity.Persistance.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new StudentConfigurations()); 
+
+            //foreach(var entity in modelBuilder.Model.GetEntityTypes())
+            //{
+            //    entity.AddProperty("Edited", typeof(DateTime));
+            //}
             
         }
     }
