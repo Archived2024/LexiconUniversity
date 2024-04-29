@@ -7,7 +7,7 @@
         public string NameFullName { get; set; }
         public string AddressCity { get; set; }
 
-        //public IEnumerable<CourseInfo> CourseInfos { get; set; }
+        public IEnumerable<CourseInfo> CourseInfos { get; set; }
     }
 
     public class CourseInfo

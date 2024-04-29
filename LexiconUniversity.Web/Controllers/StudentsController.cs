@@ -91,6 +91,7 @@ namespace LexiconUniversity.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                Random rnd = new Random(); 
                 //var student = new Student(faker.Internet.Avatar(), new Name(viewModel.FirstName, viewModel.LastName), viewModel.Email)
                 //{
                 //    Address = new Address
@@ -101,7 +102,17 @@ namespace LexiconUniversity.Web.Controllers
                 //    }
                 //};
                 var student = mapper.Map<Student>(viewModel);
-                student.Avatar = faker.Internet.Avatar(); 
+                student.Avatar = faker.Internet.Avatar();
+
+                foreach (var courseId in viewModel.SelectedCourses)
+                {
+                    student.Enrollments.Add(new Enrollment
+                    {
+                        CourseId = courseId,
+                        Grade = rnd.Next(1, 6)
+                    }); 
+                }
+
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

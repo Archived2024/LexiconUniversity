@@ -17,7 +17,9 @@ namespace LexiconUniversity.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddAutoMapper(typeof(UniversityMappings)); 
+            builder.Services.AddAutoMapper(typeof(UniversityMappings));
+
+            builder.Services.AddScoped<IGetCoursesService, GetCoursesService>(); 
 
             var app = builder.Build(); 
 
